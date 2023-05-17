@@ -11,6 +11,11 @@ class Expense{
   final Category category;
 
 
-  Expense({required this.title, required this.amount, required this.date, required this.category}) : id = uuid.v4();
+  Expense({
+    required this.title,
+    required this.amount,
+    required this.date,
+    required this.category
+  }) : id = uuid.v4();
 
 }
