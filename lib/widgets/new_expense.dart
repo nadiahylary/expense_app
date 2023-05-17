@@ -24,16 +24,16 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
-  void _submittedExpense() {
-    final inputTitle = _titleController.text;
-    final inputAmt = double.parse(_amountController.text);
+  void _submittedExpenseData() {
+    final inputTitle = _titleController.text.trim();
+    final inputAmt = double.parse(_amountController.text.trim());
 
     if (inputTitle.isEmpty || inputAmt <= 0 || _selectedDate == null) {
       return;
     }
 
     widget.addHandler(_titleController.text,
-        double.parse(_amountController.text), _selectedDate);
+        double.parse(_amountController.text), _selectedDate, _selectedCategory);
     Navigator.of(context).pop();
   }
 
@@ -60,7 +60,7 @@ class _NewExpenseState extends State<NewExpense> {
             maxLength: 50,
             decoration: const InputDecoration(label: Text("Expense motif")),
             controller: _titleController,
-            onSubmitted: (_) => _submittedExpense(),
+            onSubmitted: (_) => _submittedExpenseData(),
           ),
           Row(
             children: [
@@ -70,7 +70,7 @@ class _NewExpenseState extends State<NewExpense> {
                   decoration: const InputDecoration(
                       prefixText: '\$ ', label: Text("Expense amount")),
                   controller: _amountController,
-                  onSubmitted: (_) => _submittedExpense(),
+                  onSubmitted: (_) => _submittedExpenseData(),
                 ),
               ),
               const SizedBox(
@@ -141,7 +141,7 @@ class _NewExpenseState extends State<NewExpense> {
                 width: 10,
               ),
               ElevatedButton(
-                onPressed: _submittedExpense,
+                onPressed: _submittedExpenseData,
                 /*style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.redAccent,
                 ),*/
