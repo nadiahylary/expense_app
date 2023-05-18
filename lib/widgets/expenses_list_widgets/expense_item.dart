@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../models/expense.dart';
 
@@ -17,19 +16,19 @@ class ExpenseItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(expense.title),
+            Text(expense.title, style: Theme.of(context).textTheme.bodyMedium,),
             const SizedBox(
               height: 5,
             ),
             Row(
               children: [
-                Text('\$${expense.amount.toStringAsFixed(2)}'),
+                Text('\$${expense.amount.toStringAsFixed(2)}', style: Theme.of(context).textTheme.bodyLarge,),
                 const Spacer(),
                 Row(
                   children: [
-                    Icon(categoryIcons[expense.category], color: Colors.redAccent,),
+                    Icon(categoryIcons[expense.category], color: Theme.of(context).colorScheme.onPrimaryContainer,),
                     const SizedBox(width: 10,),
-                    Text(expense.formattedDate),
+                    Text(expense.formattedDate, style: Theme.of(context).textTheme.bodySmall,),
                   ],
                 )
               ],

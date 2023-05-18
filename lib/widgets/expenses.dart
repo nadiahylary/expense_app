@@ -38,11 +38,12 @@ class _ExpenseAppState extends State<ExpenseApp> {
   }
 
   void _deleteExpense(Expense expense) {
-    final expenseIndex = _expensesList.indexOf(expense); /**getting the index of
-    the expense to be deleted here makes a whole difference. Because once the
-    delete action is made, the index doesn't exist anymore. So trying to undo
-    the delete is like trying to access a negative index, ie an index that doesn't exist,
-    so a click on the undo button throws an exception.*/
+    final expenseIndex = _expensesList.indexOf(expense);
+    /**getting the index of
+        the expense to be deleted here makes a whole difference. Because once the
+        delete action is made, the index doesn't exist anymore. So trying to undo
+        the delete is like trying to access a negative index, ie an index that doesn't exist,
+        so a click on the undo button throws an exception.*/
     setState(() {
       _expensesList.remove(expense);
     });
@@ -52,7 +53,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
       content: const Text("Expense Deleted."),
       action: SnackBarAction(
           label: "Undo",
-          onPressed: (){
+          onPressed: () {
             setState(() {
               _expensesList.insert(expenseIndex, expense);
             });
@@ -74,24 +75,24 @@ class _ExpenseAppState extends State<ExpenseApp> {
     _expensesList.sort((a, b) => b.date.compareTo(a.date));
     Widget mainContent = Center(
       child: Container(
-              height: 400,
-              margin: const EdgeInsets.all(10),
-              child: Column(
-                children: <Widget>[
-                  Image.asset(
-                    "assets/images/empty-shopping-cart.png",
-                    //fit: BoxFit.cover,
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  const Text(
-                    "You have no expenses yet.",
-                  ),
-                ],
-              ),
+        height: 400,
+        margin: const EdgeInsets.all(10),
+        child: Column(
+          children: <Widget>[
+            Image.asset(
+              "assets/images/empty-shopping-cart.png",
+              //fit: BoxFit.cover,
             ),
-        );
+            const SizedBox(
+              height: 50,
+            ),
+            const Text(
+              "You have no expenses yet.",
+            ),
+          ],
+        ),
+      ),
+    );
 
     if (_expensesList.isNotEmpty) {
       mainContent = ExpensesList(
@@ -100,24 +101,33 @@ class _ExpenseAppState extends State<ExpenseApp> {
       );
     }
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: _openAddExpenseWidget,
-              icon: const Icon(
-                Icons.add_circle_outlined,
-                size: 35,
-              ))
-        ],
-      ),
-      body: Column(
-        children: [
-          const Text("The Expense Chart"),
-          Expanded(
-            child: mainContent,
-          ),
-        ],
-      ),
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: _openAddExpenseWidget,
+                icon: const Icon(
+                  Icons.add_circle,
+                  size: 35,
+                ))
+          ],
+        ),
+        body: Column(
+          children: [
+            const Text("The Expense Chart"),
+            Expanded(
+              child: mainContent,
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: _openAddExpenseWidget,
+            elevation: 15,
+            shape: const CircleBorder(),
+            child: const Icon(
+              Icons.add_circle,
+              size: 40,
+            )
+        ),
     );
   }
 }

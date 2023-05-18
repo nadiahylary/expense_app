@@ -26,9 +26,6 @@ class Expense {
     return DateFormat.yMMMd().format(date);
   }
 
-  /*Icon get expenseIcon{
-    return
-  }*/
 
   Expense(
       {required this.title,
