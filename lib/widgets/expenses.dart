@@ -1,6 +1,7 @@
 import 'package:expense_app/widgets/expenses_list_widgets/expenses_list.dart';
 import 'package:expense_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../models/expense.dart';
 
@@ -101,33 +102,36 @@ class _ExpenseAppState extends State<ExpenseApp> {
       );
     }
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: _openAddExpenseWidget,
-                icon: const Icon(
-                  Icons.add_circle,
-                  size: 35,
-                ))
-          ],
-        ),
-        body: Column(
-          children: [
-            const Text("The Expense Chart"),
-            Expanded(
-              child: mainContent,
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: _openAddExpenseWidget,
-            elevation: 15,
-            shape: const CircleBorder(),
-            child: const Icon(
-              Icons.add_circle,
-              size: 40,
-            )
-        ),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: _openAddExpenseWidget,
+              icon: const Icon(
+                Icons.add_circle,
+                size: 35,
+              ))
+        ],
+      ),
+      body: Column(
+        children: [
+          Text(
+            "The Expense Chart",
+            style: GoogleFonts.genos(
+              textStyle: Theme.of(context).textTheme.titleLarge,)
+          ),
+          Expanded(
+            child: mainContent,
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: _openAddExpenseWidget,
+          elevation: 15,
+          shape: const CircleBorder(),
+          child: const Icon(
+            Icons.add_circle,
+            size: 40,
+          )),
     );
   }
 }

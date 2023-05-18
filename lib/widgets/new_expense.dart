@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../models/expense.dart';
@@ -28,32 +29,47 @@ class _NewExpenseState extends State<NewExpense> {
     final inputTitle = _titleController.text.trim();
     final inputAmt = double.parse(_amountController.text);
 
-    if (inputTitle.isEmpty || inputAmt <= 0 || _selectedDate == null) {
+    if (inputTitle.isEmpty ||
+        inputAmt <= 0 ||
+        _amountController.text.isEmpty ||
+        _selectedDate == null) {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-                title: const Text(
+                title: Text(
                   "Invalid Input",
                   textAlign: TextAlign.center,
+                  style: GoogleFonts.genos(
+                    textStyle: Theme.of(context).textTheme.titleMedium,)
                 ),
-                content: const Text(
+                content: Text(
                   "Please enter valid expense amount with motif and pick a date",
                   textAlign: TextAlign.center,
+                  style: GoogleFonts.ubuntu(
+                    textStyle: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
                 actions: [
                   TextButton(
                       onPressed: () {
                         Navigator.of(ctx).pop();
                       },
-                      child: const Text('Okay'))
+                      child: Text(
+                        'Okay',
+                        style:  GoogleFonts.changa(
+                          textStyle: Theme.of(context).textTheme.bodyLarge,
+                      ))
+                  )
                 ],
               ));
       return;
     }
 
-
-    widget.addExpenseHandler(Expense(title: _titleController.text,
-        amount: double.parse(_amountController.text), date: _selectedDate!, category: _selectedCategory));
+    widget.addExpenseHandler(Expense(
+        title: _titleController.text,
+        amount: double.parse(_amountController.text),
+        date: _selectedDate!,
+        category: _selectedCategory));
     Navigator.of(context).pop();
   }
 
@@ -80,6 +96,9 @@ class _NewExpenseState extends State<NewExpense> {
             decoration: const InputDecoration(label: Text("Expense motif")),
             controller: _titleController,
             onSubmitted: (_) => _submitExpenseData(),
+            style: GoogleFonts.ubuntu(
+              textStyle: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
           Row(
             children: [
@@ -90,6 +109,9 @@ class _NewExpenseState extends State<NewExpense> {
                       prefixText: '\$ ', label: Text("Expense amount")),
                   controller: _amountController,
                   onSubmitted: (_) => _submitExpenseData(),
+                  style: GoogleFonts.ubuntu(
+                    textStyle: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -104,15 +126,19 @@ class _NewExpenseState extends State<NewExpense> {
                       _selectedDate == null
                           ? "No date Selected"
                           : DateFormat.yMMMd().format(_selectedDate!),
+                      style: GoogleFonts.ubuntu(
+                        textStyle: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ),
                     const SizedBox(
                       width: 5,
                     ),
                     IconButton(
                       onPressed: _datePicker,
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.date_range,
-                        size: 32,
+                        size: 35,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     )
                   ],
@@ -145,8 +171,10 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text(
+                child: Text(
                   'Cancel',
+                  style: GoogleFonts.genos(
+                    textStyle: Theme.of(context).textTheme.titleMedium,),
                 ),
               ),
               const SizedBox(
@@ -154,8 +182,10 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               ElevatedButton(
                 onPressed: _submitExpenseData,
-                child: const Text(
+                child: Text(
                   'Add Expense',
+                  style: GoogleFonts.genos(
+                    textStyle: Theme.of(context).textTheme.titleMedium,),
                 ),
               ),
             ],

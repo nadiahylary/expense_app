@@ -23,36 +23,33 @@ void main() {
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
         backgroundColor: kColorScheme.primaryContainer,
-        //foregroundColor: kColorScheme.primary
+        foregroundColor: kColorScheme.onSecondaryContainer
       )),
       textTheme: ThemeData().textTheme.copyWith(
-            bodyMedium: GoogleFonts.ubuntu(
-              textStyle: TextStyle(
+            bodyMedium: TextStyle(
                 fontWeight: FontWeight.normal,
                 color: kColorScheme.onSecondaryContainer,
                 fontSize: 16,
               ),
-            ),
-            bodyLarge: GoogleFonts.changa(
-              textStyle: TextStyle(
+            bodyLarge: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 15,
+                color: kColorScheme.primary,
+                fontSize: 16,
               ),
-            ),
-            bodySmall: GoogleFonts.changa(
-              textStyle: TextStyle(
+            bodySmall: TextStyle(
                 fontWeight: FontWeight.w300,
                 color: kColorScheme.onSecondaryContainer,
                 fontSize: 12,
-              ),
             ),
-            titleLarge: GoogleFonts.ubuntu(
-              textStyle: TextStyle(
+            titleLarge: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 15,
-              ),
+                color: kColorScheme.primary,
+                fontSize: 18,
+            ),
+            titleMedium: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: kColorScheme.primary,
+                fontSize: 16,
             ),
           ),
     ),
