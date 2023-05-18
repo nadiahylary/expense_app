@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import '../models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense(this.addHandler, {Key? key}) : super(key: key);
-  final Function addHandler;
+  const NewExpense(this.addExpenseHandler, {Key? key}) : super(key: key);
+  final Function addExpenseHandler;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -24,16 +24,36 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
-  void _submittedExpenseData() {
+  void _submitExpenseData() {
     final inputTitle = _titleController.text.trim();
-    final inputAmt = double.parse(_amountController.text.trim());
+    final inputAmt = double.parse(_amountController.text);
 
     if (inputTitle.isEmpty || inputAmt <= 0 || _selectedDate == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text(
+                  "Invalid Input",
+                  textAlign: TextAlign.center,
+                ),
+                content: const Text(
+                  "Please enter valid expense amount with motif and pick a date",
+                  textAlign: TextAlign.center,
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                      child: const Text('Ok'))
+                ],
+              ));
       return;
     }
+    Expense newExpense = Expense(title: _titleController.text,
+        amount: double.parse(_amountController.text), date: _selectedDate!, category: _selectedCategory);
 
-    widget.addHandler(_titleController.text,
-        double.parse(_amountController.text), _selectedDate, _selectedCategory);
+    widget.addExpenseHandler(newExpense);
     Navigator.of(context).pop();
   }
 
@@ -52,15 +72,14 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
       child: Column(
-        //mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TextField(
             maxLength: 50,
             decoration: const InputDecoration(label: Text("Expense motif")),
             controller: _titleController,
-            onSubmitted: (_) => _submittedExpenseData(),
+            onSubmitted: (_) => _submitExpenseData(),
           ),
           Row(
             children: [
@@ -70,7 +89,7 @@ class _NewExpenseState extends State<NewExpense> {
                   decoration: const InputDecoration(
                       prefixText: '\$ ', label: Text("Expense amount")),
                   controller: _amountController,
-                  onSubmitted: (_) => _submittedExpenseData(),
+                  onSubmitted: (_) => _submitExpenseData(),
                 ),
               ),
               const SizedBox(
@@ -108,25 +127,20 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               DropdownButton(
-                value: _selectedCategory,
+                  value: _selectedCategory,
                   items: Category.values
-                      .map(
-                          (category) => DropdownMenuItem(
-                              value: category,
-                              child: Text(
-                              category.name.toUpperCase()
-                              )
-                          )
-                  ).toList(),
+                      .map((category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category.name.toUpperCase())))
+                      .toList(),
                   onChanged: (value) {
-                    if(value == null){
+                    if (value == null) {
                       return;
                     }
                     setState(() {
                       _selectedCategory = value;
                     });
-                  }
-              ),
+                  }),
               const Spacer(),
               TextButton(
                 onPressed: () {
@@ -134,17 +148,13 @@ class _NewExpenseState extends State<NewExpense> {
                 },
                 child: const Text(
                   'Cancel',
-                  //style: TextStyle(color: Colors.redAccent)
                 ),
               ),
               const SizedBox(
                 width: 10,
               ),
               ElevatedButton(
-                onPressed: _submittedExpenseData,
-                /*style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                ),*/
+                onPressed: _submitExpenseData,
                 child: const Text(
                   'Add Expense',
                 ),

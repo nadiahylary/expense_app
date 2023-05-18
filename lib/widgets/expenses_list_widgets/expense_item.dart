@@ -7,6 +7,7 @@ class ExpenseItem extends StatelessWidget {
   const ExpenseItem({required this.expense, Key? key}) : super(key: key);
   final Expense expense;
 
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,7 +28,7 @@ class ExpenseItem extends StatelessWidget {
                 Row(
                   children: [
                     Icon(categoryIcons[expense.category], color: Colors.redAccent,),
-                    const SizedBox(width: 5,),
+                    const SizedBox(width: 10,),
                     Text(expense.formattedDate),
                   ],
                 )
