@@ -41,6 +41,17 @@ class _ExpenseAppState extends State<ExpenseApp> {
     setState(() {
       _expensesList.remove(expense);
     });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(seconds: 3),
+      content: const Text("Expense Deleted"),
+      action: SnackBarAction(
+          label: "Undo",
+          onPressed: (){
+            setState(() {
+              _expensesList.insert(_expensesList.indexOf(expense), expense);
+            });
+          }),
+    ));
   }
 
   void _openAddExpenseWidget() {
@@ -60,6 +71,9 @@ class _ExpenseAppState extends State<ExpenseApp> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
+          const SizedBox(
+              width: 10
+          ),
           Container(
             height: 350,
             margin: const EdgeInsets.only(top: 30),
@@ -78,7 +92,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
       ),
     );
 
-    if(_expensesList.isNotEmpty){
+    if (_expensesList.isNotEmpty) {
       mainContent = ExpensesList(
         expensesList: _expensesList,
         deleteExpenseHandler: _deleteExpense,
@@ -101,7 +115,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
         children: [
           const Text("The Expense Chart"),
           Expanded(
-              child: mainContent,
+            child: mainContent,
           ),
         ],
       ),
