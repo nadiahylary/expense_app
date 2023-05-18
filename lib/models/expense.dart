@@ -22,10 +22,9 @@ class Expense {
   final DateTime date;
   final Category category;
 
-  String get formattedDate{
+  String get formattedDate {
     return DateFormat.yMMMd().format(date);
   }
-
 
   Expense(
       {required this.title,
@@ -33,4 +32,24 @@ class Expense {
       required this.date,
       required this.category})
       : id = uuid.v4();
+}
+
+class ExpenseBucket {
+  final Category category;
+  final List<Expense> expensesInCategory;
+
+  ExpenseBucket({required this.category, required this.expensesInCategory});
+
+  ExpenseBucket.forCategory(List<Expense> allExpenses, this.category)
+      : expensesInCategory = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+
+  double get totalExpenses {
+    double amountsSum = 0;
+    for (final expense in expensesInCategory) {
+      amountsSum += expense.amount;
+    }
+    return amountsSum;
+  }
 }

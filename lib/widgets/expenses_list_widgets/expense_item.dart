@@ -13,6 +13,7 @@ class ExpenseItem extends StatelessWidget {
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        /**or if you want to set only vertical, you do EdgeInsets.symmetric(vertical: Theme.of(context).cardTheme.margin.vertical) */
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

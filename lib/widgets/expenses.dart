@@ -126,20 +126,12 @@ class _ExpenseAppState extends State<ExpenseApp> {
           const SizedBox(
             height: 10,
           ),
-          Card(
-            //elevation: 5,
-            //color: Theme.of(context).colorScheme.onPrimary,
-            child: Container(
-              height: 200,
-              //width: double.infinity,
-              margin: Theme.of(context).cardTheme.margin,
-              /**or if you want to set only vertical, you do EdgeInsets.symmetric(vertical: Theme.of(context).cardTheme.margin.vertical) */
-              child: Text("The Expenses Chart",
-                  style: GoogleFonts.genos(
-                    textStyle: Theme.of(context).textTheme.titleMedium,
-                  )),
-            ),
+          Text("The Expenses Chart",
+              style: GoogleFonts.genos(
+                textStyle: Theme.of(context).textTheme.titleMedium,
+              )
           ),
+
           Expanded(
             child: mainContent,
           ),
