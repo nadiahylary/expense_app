@@ -22,34 +22,38 @@ void main() {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-        backgroundColor: kColorScheme.primaryContainer,
-        foregroundColor: kColorScheme.onSecondaryContainer
-      )),
+              backgroundColor: kColorScheme.primaryContainer,
+              foregroundColor: kColorScheme.onSecondaryContainer)),
       textTheme: ThemeData().textTheme.copyWith(
             bodyMedium: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 16,
-              ),
+              fontWeight: FontWeight.normal,
+              color: kColorScheme.secondary,
+              fontSize: 18,
+            ),
             bodyLarge: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: kColorScheme.primary,
-                fontSize: 16,
-              ),
+              fontWeight: FontWeight.w600,
+              color: kColorScheme.primary,
+              fontSize: 18,
+            ),
+            titleSmall: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: kColorScheme.primary,
+              fontSize: 16,
+            ),
             bodySmall: TextStyle(
-                fontWeight: FontWeight.w300,
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 12,
+              fontWeight: FontWeight.w300,
+              color: kColorScheme.secondary,
+              fontSize: 13,
             ),
             titleLarge: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: kColorScheme.primary,
-                fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: kColorScheme.primary,
+              fontSize: 20,
             ),
             titleMedium: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: kColorScheme.primary,
-                fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: kColorScheme.primary,
+              fontSize: 18,
             ),
           ),
     ),

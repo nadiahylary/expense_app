@@ -36,12 +36,11 @@ class _NewExpenseState extends State<NewExpense> {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-                title: Text(
-                  "Invalid Input",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.genos(
-                    textStyle: Theme.of(context).textTheme.titleMedium,)
-                ),
+                title: Text("Invalid Input",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.changa(
+                      textStyle: Theme.of(context).textTheme.titleMedium,
+                    )),
                 content: Text(
                   "Please enter valid expense amount with motif and pick a date",
                   textAlign: TextAlign.center,
@@ -54,12 +53,10 @@ class _NewExpenseState extends State<NewExpense> {
                       onPressed: () {
                         Navigator.of(ctx).pop();
                       },
-                      child: Text(
-                        'Okay',
-                        style:  GoogleFonts.changa(
-                          textStyle: Theme.of(context).textTheme.bodyLarge,
-                      ))
-                  )
+                      child: Text('Okay',
+                          style: GoogleFonts.changa(
+                            textStyle: Theme.of(context).textTheme.bodyLarge,
+                          )))
                 ],
               ));
       return;
@@ -97,7 +94,7 @@ class _NewExpenseState extends State<NewExpense> {
             controller: _titleController,
             onSubmitted: (_) => _submitExpenseData(),
             style: GoogleFonts.ubuntu(
-              textStyle: Theme.of(context).textTheme.bodyMedium,
+              textStyle: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           Row(
@@ -110,7 +107,7 @@ class _NewExpenseState extends State<NewExpense> {
                   controller: _amountController,
                   onSubmitted: (_) => _submitExpenseData(),
                   style: GoogleFonts.ubuntu(
-                    textStyle: Theme.of(context).textTheme.bodyMedium,
+                    textStyle: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
               ),
@@ -127,7 +124,7 @@ class _NewExpenseState extends State<NewExpense> {
                           ? "No date Selected"
                           : DateFormat.yMMMd().format(_selectedDate!),
                       style: GoogleFonts.ubuntu(
-                        textStyle: Theme.of(context).textTheme.bodyMedium,
+                        textStyle: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
                     const SizedBox(
@@ -156,7 +153,12 @@ class _NewExpenseState extends State<NewExpense> {
                   items: Category.values
                       .map((category) => DropdownMenuItem(
                           value: category,
-                          child: Text(category.name.toUpperCase())))
+                          child: Text(
+                            category.name.toUpperCase(),
+                            style: GoogleFonts.genos(
+                                textStyle:
+                                    Theme.of(context).textTheme.titleMedium),
+                          )))
                       .toList(),
                   onChanged: (value) {
                     if (value == null) {
@@ -173,8 +175,9 @@ class _NewExpenseState extends State<NewExpense> {
                 },
                 child: Text(
                   'Cancel',
-                  style: GoogleFonts.genos(
-                    textStyle: Theme.of(context).textTheme.titleMedium,),
+                  style: GoogleFonts.changa(
+                    textStyle: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -184,8 +187,9 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: _submitExpenseData,
                 child: Text(
                   'Add Expense',
-                  style: GoogleFonts.genos(
-                    textStyle: Theme.of(context).textTheme.titleMedium,),
+                  style: GoogleFonts.changa(
+                    textStyle: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
               ),
             ],
