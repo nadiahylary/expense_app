@@ -103,21 +103,28 @@ class _ExpenseAppState extends State<ExpenseApp> {
     }
     return Scaffold(
       appBar: AppBar(
+        title: const Text('X-Pensia',),
         actions: [
           IconButton(
               onPressed: _openAddExpenseWidget,
               icon: const Icon(
                 Icons.add_circle,
                 size: 35,
-              ))
+              )
+          )
         ],
+        titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
       ),
       body: Column(
         children: [
-          Text(
-            "The Expense Chart",
-            style: GoogleFonts.genos(
-              textStyle: Theme.of(context).textTheme.titleLarge,)
+          Container(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            height: 200,
+            child: Text("The Expense Chart",
+                style: GoogleFonts.genos(
+                  textStyle: Theme.of(context).textTheme.titleMedium,
+                )
+            ),
           ),
           Expanded(
             child: mainContent,

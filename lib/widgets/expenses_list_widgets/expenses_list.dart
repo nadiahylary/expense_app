@@ -12,18 +12,20 @@ class ExpensesList extends StatelessWidget {
   final List<Expense> expensesList;
   final void Function(Expense expense) deleteExpenseHandler;
 
-
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-            itemCount: expensesList.length,
-            itemBuilder: (context, index) => Dismissible(
-                onDismissed: (direction) {
-                  deleteExpenseHandler(expensesList[index]);
-                },
-                key: ValueKey(expensesList[index]),
-                child: ExpenseItem(expense: expensesList[index])),
-          );
+      itemCount: expensesList.length,
+      itemBuilder: (context, index) => Dismissible(
+          background: Container(
+            color: Theme.of(context).colorScheme.onErrorContainer,
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          ),
+          onDismissed: (direction) {
+            deleteExpenseHandler(expensesList[index]);
+          },
+          key: ValueKey(expensesList[index]),
+          child: ExpenseItem(expense: expensesList[index])),
+    );
   }
 }

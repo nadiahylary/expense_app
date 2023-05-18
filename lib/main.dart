@@ -15,7 +15,13 @@ void main() {
       colorScheme: kColorScheme,
       appBarTheme: const AppBarTheme().copyWith(
           backgroundColor: kColorScheme.background,
-          foregroundColor: kColorScheme.onSurface),
+          foregroundColor: kColorScheme.onSurface,
+          titleTextStyle: GoogleFonts.genos(
+            textStyle: TextStyle(fontWeight: FontWeight.w500,
+            color: kColorScheme.tertiary,
+            fontSize: 30,)
+          )
+      ),
       cardTheme: const CardTheme().copyWith(
         color: kColorScheme.secondaryContainer,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -23,11 +29,13 @@ void main() {
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
               backgroundColor: kColorScheme.primaryContainer,
-              foregroundColor: kColorScheme.onSecondaryContainer)),
+              foregroundColor: kColorScheme.onSecondaryContainer
+          )
+      ),
       textTheme: ThemeData().textTheme.copyWith(
             bodyMedium: TextStyle(
               fontWeight: FontWeight.normal,
-              color: kColorScheme.secondary,
+              color: kColorScheme.onSecondaryContainer,
               fontSize: 18,
             ),
             bodyLarge: TextStyle(
@@ -47,7 +55,7 @@ void main() {
             ),
             titleLarge: TextStyle(
               fontWeight: FontWeight.bold,
-              color: kColorScheme.primary,
+              color: kColorScheme.error,
               fontSize: 20,
             ),
             titleMedium: TextStyle(
@@ -72,4 +80,4 @@ void main() {
             onBackground: Color.fromARGB(255, 063, 108, 069),
             surface: Colors.white,
             onSurface: Color.fromARGB(255, 063, 108, 069))
-            */
+       */

@@ -26,7 +26,7 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   void _submitExpenseData() {
-    final inputTitle = _titleController.text.trim();
+    final inputTitle = _titleController.text;
     final inputAmt = double.parse(_amountController.text);
 
     if (inputTitle.isEmpty ||
@@ -39,7 +39,7 @@ class _NewExpenseState extends State<NewExpense> {
                 title: Text("Invalid Input",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.changa(
-                      textStyle: Theme.of(context).textTheme.titleMedium,
+                      textStyle: Theme.of(context).textTheme.titleLarge,
                     )),
                 content: Text(
                   "Please enter valid expense amount with motif and pick a date",
@@ -58,7 +58,8 @@ class _NewExpenseState extends State<NewExpense> {
                             textStyle: Theme.of(context).textTheme.bodyLarge,
                           )))
                 ],
-              ));
+              )
+      );
       return;
     }
 
@@ -155,7 +156,7 @@ class _NewExpenseState extends State<NewExpense> {
                           value: category,
                           child: Text(
                             category.name.toUpperCase(),
-                            style: GoogleFonts.genos(
+                            style: GoogleFonts.ubuntuCondensed(
                                 textStyle:
                                     Theme.of(context).textTheme.titleMedium),
                           )))
