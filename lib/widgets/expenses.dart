@@ -50,6 +50,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
     });
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       duration: const Duration(seconds: 3),
       content: const Text("Expense Deleted."),
       action: SnackBarAction(
@@ -103,27 +104,40 @@ class _ExpenseAppState extends State<ExpenseApp> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('X-Pensia',),
-        actions: [
-          IconButton(
-              onPressed: _openAddExpenseWidget,
-              icon: const Icon(
-                Icons.add_circle,
-                size: 35,
-              )
+          title: const Text(
+            'X-Pensia',
+          ),
+          actions: [
+            IconButton(
+                onPressed: _openAddExpenseWidget,
+                icon: Icon(
+                  Icons.add_circle,
+                  size: 35,
+                  color: Theme.of(context).colorScheme.tertiary,
+                ))
+          ],
+          titleTextStyle: GoogleFonts.genos(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle,
           )
-        ],
-        titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            height: 200,
-            child: Text("The Expense Chart",
-                style: GoogleFonts.genos(
-                  textStyle: Theme.of(context).textTheme.titleMedium,
-                )
+          const SizedBox(
+            height: 10,
+          ),
+          Card(
+            //elevation: 5,
+            //color: Theme.of(context).colorScheme.onPrimary,
+            child: Container(
+              height: 200,
+              //width: double.infinity,
+              margin: Theme.of(context).cardTheme.margin,
+              /**or if you want to set only vertical, you do EdgeInsets.symmetric(vertical: Theme.of(context).cardTheme.margin.vertical) */
+              child: Text("The Expenses Chart",
+                  style: GoogleFonts.genos(
+                    textStyle: Theme.of(context).textTheme.titleMedium,
+                  )),
             ),
           ),
           Expanded(
@@ -131,13 +145,15 @@ class _ExpenseAppState extends State<ExpenseApp> {
           ),
         ],
       ),
+      //floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
           onPressed: _openAddExpenseWidget,
           elevation: 15,
           shape: const CircleBorder(),
-          child: const Icon(
+          child: Icon(
             Icons.add_circle,
             size: 40,
+            color: Theme.of(context).colorScheme.tertiary,
           )),
     );
   }

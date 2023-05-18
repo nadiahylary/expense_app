@@ -28,24 +28,25 @@ class _NewExpenseState extends State<NewExpense> {
   void _submitExpenseData() {
     final inputTitle = _titleController.text;
     final inputAmt = double.parse(_amountController.text);
-
+    //final amtIsInvalid = inputAmt == null;
     if (inputTitle.isEmpty ||
-        inputAmt <= 0 ||
         _amountController.text.isEmpty ||
         _selectedDate == null) {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-                title: Text("Invalid Input",
+                title: Text("Invalid Input!",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.changa(
                       textStyle: Theme.of(context).textTheme.titleLarge,
                     )),
                 content: Text(
-                  "Please enter valid expense amount with motif and pick a date",
+                  "Please enter valid expense amount with motif and pick a date.",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.ubuntu(
-                    textStyle: Theme.of(context).textTheme.bodyMedium,
+                    textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSecondaryContainer
+                    ),
                   ),
                 ),
                 actions: [
@@ -55,7 +56,9 @@ class _NewExpenseState extends State<NewExpense> {
                       },
                       child: Text('Okay',
                           style: GoogleFonts.changa(
-                            textStyle: Theme.of(context).textTheme.bodyLarge,
+                            textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontSize: 20
+                            ),
                           )))
                 ],
               )
