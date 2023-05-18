@@ -45,15 +45,15 @@ class _NewExpenseState extends State<NewExpense> {
                       onPressed: () {
                         Navigator.of(ctx).pop();
                       },
-                      child: const Text('Ok'))
+                      child: const Text('Okay'))
                 ],
               ));
       return;
     }
-    Expense newExpense = Expense(title: _titleController.text,
-        amount: double.parse(_amountController.text), date: _selectedDate!, category: _selectedCategory);
 
-    widget.addExpenseHandler(newExpense);
+
+    widget.addExpenseHandler(Expense(title: _titleController.text,
+        amount: double.parse(_amountController.text), date: _selectedDate!, category: _selectedCategory));
     Navigator.of(context).pop();
   }
 
@@ -112,7 +112,6 @@ class _NewExpenseState extends State<NewExpense> {
                       onPressed: _datePicker,
                       icon: const Icon(
                         Icons.date_range,
-                        color: Colors.deepPurple,
                         size: 32,
                       ),
                     )

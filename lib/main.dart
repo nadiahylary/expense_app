@@ -7,8 +7,9 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'X-Pensia',
-    theme: ThemeData(
+    theme: ThemeData().copyWith(
       useMaterial3: true,
+      scaffoldBackgroundColor: const Color.fromARGB(240, 240, 240, 240),
       //primarySwatch: Colors.brown,
     ),
     home: const ExpenseApp(),

@@ -13,7 +13,7 @@ class ExpenseApp extends StatefulWidget {
 
 class _ExpenseAppState extends State<ExpenseApp> {
   final List<Expense> _expensesList = [
-    /*Expense(
+    Expense(
         title: "Flutter Course - Udemy",
         amount: 11.99,
         date: DateTime(2022, 10, 12, 08, 25),
@@ -28,7 +28,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
         title: "100 Days Of Code - Udemy",
         amount: 11.99,
         date: DateTime(2023, 02, 07, 08, 25),
-        category: Category.business)*/
+        category: Category.business)
   ];
 
   void _addExpense(Expense expense) {
@@ -38,17 +38,23 @@ class _ExpenseAppState extends State<ExpenseApp> {
   }
 
   void _deleteExpense(Expense expense) {
+    final expenseIndex = _expensesList.indexOf(expense); /**getting the index of
+    the expense to be deleted here makes a whole difference. Because once the
+    delete action is made, the index doesn't exist anymore. So trying to undo
+    the delete is like trying to access a negative index, ie an index that doesn't exist,
+    so a click on the undo button throws an exception.*/
     setState(() {
       _expensesList.remove(expense);
     });
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: const Duration(seconds: 3),
-      content: const Text("Expense Deleted"),
+      content: const Text("Expense Deleted."),
       action: SnackBarAction(
           label: "Undo",
           onPressed: (){
             setState(() {
-              _expensesList.insert(_expensesList.indexOf(expense), expense);
+              _expensesList.insert(expenseIndex, expense);
             });
           }),
     ));
@@ -67,30 +73,25 @@ class _ExpenseAppState extends State<ExpenseApp> {
   Widget build(BuildContext context) {
     _expensesList.sort((a, b) => b.date.compareTo(a.date));
     Widget mainContent = Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          const SizedBox(
-              width: 10
-          ),
-          Container(
-            height: 350,
-            margin: const EdgeInsets.only(top: 30),
-            child: Image.asset(
-              "assets/images/empty-shopping-cart.png",
-              fit: BoxFit.cover,
+      child: Container(
+              height: 400,
+              margin: const EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  Image.asset(
+                    "assets/images/empty-shopping-cart.png",
+                    //fit: BoxFit.cover,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  const Text(
+                    "You have no expenses yet.",
+                  ),
+                ],
+              ),
             ),
-          ),
-          /*const SizedBox(
-            height: 20,
-          ),*/
-          const Text(
-            "You have no expenses yet.",
-          ),
-        ],
-      ),
-    );
+        );
 
     if (_expensesList.isNotEmpty) {
       mainContent = ExpensesList(
@@ -99,9 +100,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
       );
     }
     return Scaffold(
-      //backgroundColor: const Color.fromARGB(240, 240, 240, 240),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(240, 240, 240, 240),
         actions: [
           IconButton(
               onPressed: _openAddExpenseWidget,
