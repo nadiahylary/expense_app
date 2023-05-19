@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -25,43 +28,88 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
+  void _showDialog(){
+    if(Platform.isIOS){
+      /**for iOS devices -- start--*/
+      showCupertinoDialog(
+          context: context,
+          builder: (ctx) => CupertinoAlertDialog(
+            title: Text("Invalid Input!",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.changa(
+                  textStyle: Theme.of(context).textTheme.titleLarge,
+                )),
+            content: Text(
+              "Please enter valid expense amount with motif and pick a date.",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.ubuntu(
+                textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color:
+                    Theme.of(context).colorScheme.onSecondaryContainer),
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: Text('Okay',
+                      style: GoogleFonts.changa(
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontSize: 20),
+                      )))
+            ],
+          )
+      );
+      /**for iOS devices --end--*/
+    }
+    else{
+      /**for android devices --start--*/
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Invalid Input!",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.changa(
+                  textStyle: Theme.of(context).textTheme.titleLarge,
+                )),
+            content: Text(
+              "Please enter valid expense amount with motif and pick a date.",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.ubuntu(
+                textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color:
+                    Theme.of(context).colorScheme.onSecondaryContainer),
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: Text('Okay',
+                      style: GoogleFonts.changa(
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontSize: 20),
+                      )))
+            ],
+          )
+      );
+      /**for android devices --end--*/
+    }
+
+  }
+
   void _submitExpenseData() {
     final inputTitle = _titleController.text;
     final inputAmt = double.tryParse(_amountController.text);
     final amountIsInvalid = inputAmt == null || inputAmt <= 0;
-    //final amtIsInvalid = inputAmt == null;
     if (inputTitle.isEmpty || amountIsInvalid || _selectedDate == null) {
-      showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                title: Text("Invalid Input!",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.changa(
-                      textStyle: Theme.of(context).textTheme.titleLarge,
-                    )),
-                content: Text(
-                  "Please enter valid expense amount with motif and pick a date.",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.ubuntu(
-                    textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color:
-                            Theme.of(context).colorScheme.onSecondaryContainer),
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Text('Okay',
-                          style: GoogleFonts.changa(
-                            textStyle: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(fontSize: 20),
-                          )))
-                ],
-              ));
+      _showDialog();
       return;
     }
 
@@ -244,7 +292,7 @@ class _NewExpenseState extends State<NewExpense> {
                 const SizedBox(
                   height: 25,
                 ),
-                if(width >= 600)
+                if (width >= 600)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -259,7 +307,9 @@ class _NewExpenseState extends State<NewExpense> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 45,),
+                      const SizedBox(
+                        width: 45,
+                      ),
                       ElevatedButton(
                         onPressed: _submitExpenseData,
                         child: Text(
@@ -272,55 +322,55 @@ class _NewExpenseState extends State<NewExpense> {
                     ],
                   )
                 else
-                Row(
-                  children: [
-                    DropdownButton(
-                        value: _selectedCategory,
-                        items: Category.values
-                            .map((category) => DropdownMenuItem(
-                                value: category,
-                                child: Text(
-                                  category.name.toUpperCase(),
-                                  style: GoogleFonts.ubuntuCondensed(
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium),
-                                )))
-                            .toList(),
-                        onChanged: (value) {
-                          if (value == null) {
-                            return;
-                          }
-                          setState(() {
-                            _selectedCategory = value;
-                          });
-                        }),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        'Cancel',
-                        style: GoogleFonts.changa(
-                          textStyle: Theme.of(context).textTheme.titleMedium,
+                  Row(
+                    children: [
+                      DropdownButton(
+                          value: _selectedCategory,
+                          items: Category.values
+                              .map((category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name.toUpperCase(),
+                                    style: GoogleFonts.ubuntuCondensed(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium),
+                                  )))
+                              .toList(),
+                          onChanged: (value) {
+                            if (value == null) {
+                              return;
+                            }
+                            setState(() {
+                              _selectedCategory = value;
+                            });
+                          }),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.changa(
+                            textStyle: Theme.of(context).textTheme.titleMedium,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    ElevatedButton(
-                      onPressed: _submitExpenseData,
-                      child: Text(
-                        'Add Expense',
-                        style: GoogleFonts.changa(
-                          textStyle: Theme.of(context).textTheme.titleMedium,
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: _submitExpenseData,
+                        child: Text(
+                          'Add Expense',
+                          style: GoogleFonts.changa(
+                            textStyle: Theme.of(context).textTheme.titleMedium,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
+                    ],
+                  )
               ],
             ),
           ),
