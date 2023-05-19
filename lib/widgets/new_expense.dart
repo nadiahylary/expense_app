@@ -27,10 +27,11 @@ class _NewExpenseState extends State<NewExpense> {
 
   void _submitExpenseData() {
     final inputTitle = _titleController.text;
-    final inputAmt = double.parse(_amountController.text);
+    final inputAmt = double.tryParse(_amountController.text);
+    final amountIsInvalid = inputAmt == null || inputAmt <= 0;
     //final amtIsInvalid = inputAmt == null;
     if (inputTitle.isEmpty ||
-        _amountController.text.isEmpty ||
+        amountIsInvalid ||
         _selectedDate == null) {
       showDialog(
           context: context,
@@ -88,117 +89,123 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-      child: Column(
-        children: [
-          TextField(
-            maxLength: 50,
-            decoration: const InputDecoration(label: Text("Expense motif")),
-            controller: _titleController,
-            onSubmitted: (_) => _submitExpenseData(),
-            style: GoogleFonts.ubuntu(
-              textStyle: Theme.of(context).textTheme.titleSmall,
-            ),
-          ),
-          Row(
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 20, 20, keyboardSpace + 20),
+          child: Column(
             children: [
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      prefixText: '\$ ', label: Text("Expense amount")),
-                  controller: _amountController,
-                  onSubmitted: (_) => _submitExpenseData(),
-                  style: GoogleFonts.ubuntu(
-                    textStyle: Theme.of(context).textTheme.titleSmall,
-                  ),
+              TextField(
+                maxLength: 50,
+                decoration: const InputDecoration(label: Text("Expense motif")),
+                controller: _titleController,
+                onSubmitted: (_) => _submitExpenseData(),
+                style: GoogleFonts.ubuntu(
+                  textStyle: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
-              const SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      _selectedDate == null
-                          ? "No date Selected"
-                          : DateFormat.yMMMd().format(_selectedDate!),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                          prefixText: '\$ ', label: Text("Expense amount")),
+                      controller: _amountController,
+                      onSubmitted: (_) => _submitExpenseData(),
                       style: GoogleFonts.ubuntu(
                         textStyle: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    IconButton(
-                      onPressed: _datePicker,
-                      icon: Icon(
-                        Icons.date_range,
-                        size: 35,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              DropdownButton(
-                  value: _selectedCategory,
-                  items: Category.values
-                      .map((category) => DropdownMenuItem(
-                          value: category,
-                          child: Text(
-                            category.name.toUpperCase(),
-                            style: GoogleFonts.ubuntuCondensed(
-                                textStyle:
-                                    Theme.of(context).textTheme.titleMedium),
-                          )))
-                      .toList(),
-                  onChanged: (value) {
-                    if (value == null) {
-                      return;
-                    }
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                  }),
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Cancel',
-                  style: GoogleFonts.changa(
-                    textStyle: Theme.of(context).textTheme.titleMedium,
                   ),
-                ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          _selectedDate == null
+                              ? "No date Selected"
+                              : DateFormat.yMMMd().format(_selectedDate!),
+                          style: GoogleFonts.ubuntu(
+                            textStyle: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        IconButton(
+                          onPressed: _datePicker,
+                          icon: Icon(
+                            Icons.date_range,
+                            size: 35,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
-                width: 10,
+                height: 25,
               ),
-              ElevatedButton(
-                onPressed: _submitExpenseData,
-                child: Text(
-                  'Add Expense',
-                  style: GoogleFonts.changa(
-                    textStyle: Theme.of(context).textTheme.titleMedium,
+              Row(
+                children: [
+                  DropdownButton(
+                      value: _selectedCategory,
+                      items: Category.values
+                          .map((category) => DropdownMenuItem(
+                              value: category,
+                              child: Text(
+                                category.name.toUpperCase(),
+                                style: GoogleFonts.ubuntuCondensed(
+                                    textStyle:
+                                        Theme.of(context).textTheme.titleMedium),
+                              )))
+                          .toList(),
+                      onChanged: (value) {
+                        if (value == null) {
+                          return;
+                        }
+                        setState(() {
+                          _selectedCategory = value;
+                        });
+                      }),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Cancel',
+                      style: GoogleFonts.changa(
+                        textStyle: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: _submitExpenseData,
+                    child: Text(
+                      'Add Expense',
+                      style: GoogleFonts.changa(
+                        textStyle: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

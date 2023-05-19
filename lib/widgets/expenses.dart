@@ -66,15 +66,18 @@ class _ExpenseAppState extends State<ExpenseApp> {
 
   void _openAddExpenseWidget() {
     showModalBottomSheet(
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpense(_addExpense),
     );
   }
 
-  // This widget is the root of your application.
+  // This widget is the root containing all the widgets of your application.
   @override
   Widget build(BuildContext context) {
+    final deviceWidth = MediaQuery.of(context).size.width;
+    //final deviceHeight = MediaQuery.of(context).size.height;
     _expensesList.sort((a, b) => b.date.compareTo(a.date));
     Widget mainContent = Center(
       child: Container(
@@ -128,7 +131,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
             textStyle: Theme.of(context).appBarTheme.titleTextStyle,
           )
       ),
-      body: Column(
+      body: deviceWidth < 600 ? Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(
@@ -145,7 +148,26 @@ class _ExpenseAppState extends State<ExpenseApp> {
             height: 20,
           ),
         ],
+      )
+      : Row(
+        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(child: ExpenseChart(expenses: _expensesList)),
+          const SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: mainContent,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+        ],
       ),
+
       //floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
           onPressed: _openAddExpenseWidget,
