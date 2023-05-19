@@ -30,9 +30,7 @@ class _NewExpenseState extends State<NewExpense> {
     final inputAmt = double.tryParse(_amountController.text);
     final amountIsInvalid = inputAmt == null || inputAmt <= 0;
     //final amtIsInvalid = inputAmt == null;
-    if (inputTitle.isEmpty ||
-        amountIsInvalid ||
-        _selectedDate == null) {
+    if (inputTitle.isEmpty || amountIsInvalid || _selectedDate == null) {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
@@ -46,8 +44,8 @@ class _NewExpenseState extends State<NewExpense> {
                   textAlign: TextAlign.center,
                   style: GoogleFonts.ubuntu(
                     textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSecondaryContainer
-                    ),
+                        color:
+                            Theme.of(context).colorScheme.onSecondaryContainer),
                   ),
                 ),
                 actions: [
@@ -57,13 +55,13 @@ class _NewExpenseState extends State<NewExpense> {
                       },
                       child: Text('Okay',
                           style: GoogleFonts.changa(
-                            textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              fontSize: 20
-                            ),
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(fontSize: 20),
                           )))
                 ],
-              )
-      );
+              ));
       return;
     }
 
@@ -90,123 +88,244 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
-    return SizedBox(
-      height: double.infinity,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 20, 20, keyboardSpace + 20),
-          child: Column(
-            children: [
-              TextField(
-                maxLength: 50,
-                decoration: const InputDecoration(label: Text("Expense motif")),
-                controller: _titleController,
-                onSubmitted: (_) => _submitExpenseData(),
-                style: GoogleFonts.ubuntu(
-                  textStyle: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                          prefixText: '\$ ', label: Text("Expense amount")),
-                      controller: _amountController,
-                      onSubmitted: (_) => _submitExpenseData(),
-                      style: GoogleFonts.ubuntu(
-                        textStyle: Theme.of(context).textTheme.titleSmall,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          _selectedDate == null
-                              ? "No date Selected"
-                              : DateFormat.yMMMd().format(_selectedDate!),
+    /**we could also use MediaQuery as in the expenses.dart widget file
+     * but this approach(LayoutBuilder) focuses on customizing a specific widget
+     * related to its direct parent and not the app's main widget*/
+    return LayoutBuilder(builder: (context, constraints) {
+      final width = constraints.maxWidth;
+
+      return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, keyboardSpace + 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (width >= 600)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          maxLength: 50,
+                          decoration: const InputDecoration(
+                              label: Text("Expense motif")),
+                          controller: _titleController,
+                          onSubmitted: (_) => _submitExpenseData(),
                           style: GoogleFonts.ubuntu(
                             textStyle: Theme.of(context).textTheme.titleSmall,
                           ),
                         ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        IconButton(
-                          onPressed: _datePicker,
-                          icon: Icon(
-                            Icons.date_range,
-                            size: 35,
-                            color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const SizedBox(
+                        width: 25,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                              prefixText: '\$ ', label: Text("Expense amount")),
+                          controller: _amountController,
+                          onSubmitted: (_) => _submitExpenseData(),
+                          style: GoogleFonts.ubuntu(
+                            textStyle: Theme.of(context).textTheme.titleSmall,
                           ),
-                        )
-                      ],
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  TextField(
+                    maxLength: 50,
+                    decoration:
+                        const InputDecoration(label: Text("Expense motif")),
+                    controller: _titleController,
+                    onSubmitted: (_) => _submitExpenseData(),
+                    style: GoogleFonts.ubuntu(
+                      textStyle: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Row(
-                children: [
-                  DropdownButton(
-                      value: _selectedCategory,
-                      items: Category.values
-                          .map((category) => DropdownMenuItem(
-                              value: category,
-                              child: Text(
-                                category.name.toUpperCase(),
-                                style: GoogleFonts.ubuntuCondensed(
-                                    textStyle:
-                                        Theme.of(context).textTheme.titleMedium),
-                              )))
-                          .toList(),
-                      onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
-                        setState(() {
-                          _selectedCategory = value;
-                        });
-                      }),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      'Cancel',
-                      style: GoogleFonts.changa(
-                        textStyle: Theme.of(context).textTheme.titleMedium,
+                if (width >= 600)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _selectedDate == null
+                            ? "No date Selected"
+                            : DateFormat.yMMMd().format(_selectedDate!),
+                        style: GoogleFonts.ubuntu(
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      IconButton(
+                        onPressed: _datePicker,
+                        icon: Icon(
+                          Icons.date_range,
+                          size: 35,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const Spacer(),
+                      DropdownButton(
+                          value: _selectedCategory,
+                          items: Category.values
+                              .map((category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name.toUpperCase(),
+                                    style: GoogleFonts.ubuntuCondensed(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium),
+                                  )))
+                              .toList(),
+                          onChanged: (value) {
+                            if (value == null) {
+                              return;
+                            }
+                            setState(() {
+                              _selectedCategory = value;
+                            });
+                          }),
+                    ],
+                  )
+                else
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                              prefixText: '\$ ', label: Text("Expense amount")),
+                          controller: _amountController,
+                          onSubmitted: (_) => _submitExpenseData(),
+                          style: GoogleFonts.ubuntu(
+                            textStyle: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              _selectedDate == null
+                                  ? "No date Selected"
+                                  : DateFormat.yMMMd().format(_selectedDate!),
+                              style: GoogleFonts.ubuntu(
+                                textStyle:
+                                    Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            IconButton(
+                              onPressed: _datePicker,
+                              icon: Icon(
+                                Icons.date_range,
+                                size: 35,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                const SizedBox(
+                  height: 25,
+                ),
+                if(width >= 600)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.changa(
+                            textStyle: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 45,),
+                      ElevatedButton(
+                        onPressed: _submitExpenseData,
+                        child: Text(
+                          'Add Expense',
+                          style: GoogleFonts.changa(
+                            textStyle: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                Row(
+                  children: [
+                    DropdownButton(
+                        value: _selectedCategory,
+                        items: Category.values
+                            .map((category) => DropdownMenuItem(
+                                value: category,
+                                child: Text(
+                                  category.name.toUpperCase(),
+                                  style: GoogleFonts.ubuntuCondensed(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium),
+                                )))
+                            .toList(),
+                        onChanged: (value) {
+                          if (value == null) {
+                            return;
+                          }
+                          setState(() {
+                            _selectedCategory = value;
+                          });
+                        }),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: GoogleFonts.changa(
+                          textStyle: Theme.of(context).textTheme.titleMedium,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: _submitExpenseData,
-                    child: Text(
-                      'Add Expense',
-                      style: GoogleFonts.changa(
-                        textStyle: Theme.of(context).textTheme.titleMedium,
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      onPressed: _submitExpenseData,
+                      child: Text(
+                        'Add Expense',
+                        style: GoogleFonts.changa(
+                          textStyle: Theme.of(context).textTheme.titleMedium,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                  ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
