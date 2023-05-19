@@ -48,7 +48,7 @@ class ExpenseChart extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             Theme.of(context).colorScheme.primary.withOpacity(0.3),
-            Theme.of(context).colorScheme.primary.withOpacity(0.0)
+            Theme.of(context).colorScheme.primary.withOpacity(0.05)
           ],
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
@@ -79,7 +79,7 @@ class ExpenseChart extends StatelessWidget {
                       child: Icon(
                         categoryIcons[bucket.category],
                         color: isDarkMode
-                            ? Theme.of(context).colorScheme.secondary
+                            ? Theme.of(context).colorScheme.primary
                             : Theme.of(context)
                                 .colorScheme
                                 .primary

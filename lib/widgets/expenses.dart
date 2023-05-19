@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/expense.dart';
+import 'expenses_chart/chart.dart';
 
 class ExpenseApp extends StatefulWidget {
   const ExpenseApp({super.key});
@@ -111,10 +112,17 @@ class _ExpenseAppState extends State<ExpenseApp> {
             IconButton(
                 onPressed: _openAddExpenseWidget,
                 icon: Icon(
-                  Icons.add_circle,
+                  Icons.add,
                   size: 35,
                   color: Theme.of(context).colorScheme.tertiary,
-                ))
+                )),
+            IconButton(
+                onPressed: (){},
+                icon: Icon(
+                  Icons.more_vert,
+                  size: 35,
+                  color: Theme.of(context).colorScheme.tertiary,
+                )),
           ],
           titleTextStyle: GoogleFonts.genos(
             textStyle: Theme.of(context).appBarTheme.titleTextStyle,
@@ -126,14 +134,15 @@ class _ExpenseAppState extends State<ExpenseApp> {
           const SizedBox(
             height: 10,
           ),
-          Text("The Expenses Chart",
-              style: GoogleFonts.genos(
-                textStyle: Theme.of(context).textTheme.titleMedium,
-              )
+          ExpenseChart(expenses: _expensesList),
+          const SizedBox(
+            height: 10,
           ),
-
           Expanded(
             child: mainContent,
+          ),
+          const SizedBox(
+            height: 20,
           ),
         ],
       ),
