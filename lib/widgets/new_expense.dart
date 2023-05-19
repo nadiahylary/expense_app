@@ -141,7 +141,9 @@ class _NewExpenseState extends State<NewExpense> {
      * related to its direct parent and not the app's main widget*/
     return LayoutBuilder(builder: (context, constraints) {
       final width = constraints.maxWidth;
-
+/**We can also use platform options to customize the adaptive settings specific
+ * for each device type, by using Platform.isIOS, Platform.isAndroid, etc in
+ * ternary expressions to conditionally render widgets. */
       return SizedBox(
         height: double.infinity,
         child: SingleChildScrollView(
